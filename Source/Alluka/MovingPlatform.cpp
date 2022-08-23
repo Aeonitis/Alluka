@@ -23,8 +23,8 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    // Remote/Client-side Logic
-    if (!HasAuthority())
+    // Server-side Logic
+    if (HasAuthority())
     {
         FVector ActorLocation = GetActorLocation();
 
