@@ -28,8 +28,13 @@ void AMovingPlatform::Tick(float DeltaTime)
     {
         FVector ActorLocation = GetActorLocation();
 
-        // Increment location in cm
-        ActorLocation += FVector(MovementSpeed * DeltaTime, 0, 0);
+        // Translated location from Local (relative) location to global (world)
+        FVector GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
+        // Normalized direction vector to target
+        FVector DirectionToTarget = (GlobalTargetLocation - ActorLocation).GetSafeNormal();
+
+        // Increment location towards Normalized Direction (DirectionToTarget) multiplied in magnitude of (Speed * Deltatime)
+        ActorLocation += DirectionToTarget * (MovementSpeed * DeltaTime);
         SetActorLocation(ActorLocation);
     }
 }
