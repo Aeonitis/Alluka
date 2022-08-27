@@ -34,6 +34,18 @@ void AMovingPlatform::Tick(float DeltaTime)
     {
         FVector ActorLocation = GetActorLocation();
 
+        // Vector size/lengths
+        float FullJourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+        float TravelledJourneyLength = (ActorLocation - GlobalStartLocation).Size();
+
+        // Invert direction/vector if arrived at Journey end/destination
+        if (TravelledJourneyLength >= FullJourneyLength)
+        {
+            FVector Swap = GlobalStartLocation;
+            GlobalStartLocation = GlobalTargetLocation;
+            GlobalTargetLocation = Swap;
+        }
+
         // Normalized direction vector to target
         FVector DirectionToTarget = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
 
